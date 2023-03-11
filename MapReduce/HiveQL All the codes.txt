@@ -1,0 +1,91 @@
+CREATE EXTERNAL TABLE IF NOT EXISTS airline_db.airline_delay (
+  Year INT,
+  Month INT,
+  DayofMonth INT,
+  DayofWeek INT,
+  DepTime INT,
+  CRSDepTime INT,
+  ArrTime INT,
+  CRSArrTime INT,
+  UniqueCarrier STRING,
+  FlightNum INT,
+  TailNum STRING,
+  ActualElapsedTime INT,
+  AirTime INT,
+  ArrDelay INT,
+  DepDelay INT,
+  Origin STRING,
+  Dest STRING,
+  Distance INT,
+  TaxiIn INT,
+  TaxiOut INT,
+  Cancelled INT,
+  CancellationCode STRING,
+  Diverted INT,
+  CarrierDelay INT,
+  WeatherDelay INT,
+  NASDelay INT,
+  SecurityDelay INT,
+  LateAircraftDelay INT
+)
+
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+LOCATION 's3://flightdb/dataset/'
+TBLPROPERTIES
+('skip.header.line.count'='1');
+
+
+
+Query 1 :
+
+SELECT Year, SUM(CarrierDelay) AS TotalCarrierDelay
+FROM airline_db.airline_delay
+WHERE Year BETWEEN 2003 AND 2010
+GROUP BY Year
+ORDER BY Year ASC;
+
+Query 2 :
+
+2)Year-wise NAS delay from 2003-2010
+
+SELECT Year, SUM(NASDelay) AS TotalNASDelay
+FROM airline_db.airline_delay
+WHERE Year BETWEEN 2003 AND 2010
+GROUP BY Year
+ORDER BY Year ASC;
+
+
+Query 3 :
+
+3)Year wise Weather delay from 2003-2010
+
+SELECT Year, SUM(WeatherDelay) AS TotalWeatherDelay
+FROM airline_db.airline_delay
+WHERE Year BETWEEN 2003 AND 2010
+GROUP BY Year
+ORDER BY Year ASC;
+
+
+Query 4 :
+
+4)Year-wise late aircraft delay from 2003-2010
+
+SELECT Year, SUM(LateAircraftDelay) AS TotalLateAircraftDelay
+FROM airline_db.airline_delay
+WHERE Year BETWEEN 2003 AND 2010
+GROUP BY Year
+ORDER BY Year ASC;
+
+
+Query 5 :
+
+5)Year-wise security delay from 2003-2010
+
+SELECT Year, SUM(SecurityDelay) AS TotalSecurityDelay
+FROM airline_db.airline_delay
+WHERE Year BETWEEN 2003 AND 2010
+GROUP BY Year
+ORDER BY Year ASC;
+
